@@ -6,7 +6,7 @@ const usuariosSchema = Joi.object({
         nome: Joi.string(),
         email: Joi.string(),
         password: Joi.string(),
-        administrados: Joi.boolean(),
+        administrador: Joi.boolean().truthy('Y'),
         _id: Joi.string()
 
     })

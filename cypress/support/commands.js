@@ -23,21 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add('token', (email, senha) => { 
+Cypress.Commands.add('token', (email, senha) => {
     cy.request({
         method: 'POST',
         url: '/login',
         body: {
-        "email": email,
-        "password": senha
-    }
+            "email": email,
+            "password": senha
+        }
     }).then((response) => {
         expect(response.status).to.equal(200)
         return response.body.authorization
     })
-    
- })
- Cypress.Commands.add('cadastrarProduto', (token, produto, preco, descricao, quantidade) =>{
+
+})
+Cypress.Commands.add('cadastrarProduto', (token, produto, preco, descricao, quantidade) => {
     cy.request({
         method: 'POST',
         url: '/Produtos',
@@ -50,36 +50,38 @@ Cypress.Commands.add('token', (email, senha) => {
         },
         failOnStatusCode: false
     })
- })
- Cypress.Commands.add('login', (email, senha) => { 
+})
+Cypress.Commands.add('login', (email, senha) => {
     it('login com sucesso', () => {
-    cy.request({
-        method: 'POST',
-        url: 'http://localhost:3000/login',
-        body: {
-        "email": email,
-        "password": senha
-    }
-    }).then((response) => {
-        expect(response.status).to.equal(200)
-        expect(response.body.message).to.equal('Login realizado com sucesso')
-        cy.log(response.body.authorization)
-    })
+        cy.request({
+            method: 'POST',
+            url: 'http://localhost:3000/login',
+            body: {
+                "email": email,
+                "password": senha
+            }
+        }).then((response) => {
+            expect(response.status).to.equal(200)
+            expect(response.body.message).to.equal('Login realizado com sucesso')
+            cy.log(response.body.authorization)
+        })
 
-});})
-Cypress.Commands.add('cadastrarUsuario', () => { it('cadastro de usuario', () => {
-    let emailfaker = faker.internet.email()
-    cy.request({
-        method: 'POST',
-        url: 'usuarios',
-        body: {
-            "nome": "Alex Anderson",
-            "email": emailfaker,
-            "password": "teste",
-            "administrador": "true"
-        }
-    }).then((response) => {
-        expect(response.body.message).to.equal('Cadastro realizado com sucesso')
-    })
+    });
+})
+Cypress.Commands.add('cadastrarUsuario', (email) => {
+    it('cadastro de usuario', () => {
+        cy.request({
+            method: 'POST',
+            url: 'usuarios',
+            body: {
+                "nome": "ALEX ANDERSON",
+                "email": email,
+                "password": "teste",
+                "administrador": "true"
+            }
+        }).then(response =>{
+            expect(response.body.message).to.equal('Cadastro realizado com sucesso')
+        })
 
-});})
+    })
+})
