@@ -68,16 +68,16 @@ Cypress.Commands.add('login', (email, senha) => {
 
     });
 })
-Cypress.Commands.add('cadastrarUsuario', (email) => {
+Cypress.Commands.add('cadastrarUsuario', (nome, email, senha, adm) => {
     it('cadastro de usuario', () => {
         cy.request({
             method: 'POST',
             url: 'usuarios',
             body: {
-                "nome": "ALEX ANDERSON",
+                "nome": nome,
                 "email": email,
-                "password": "teste",
-                "administrador": "true"
+                "password": senha,
+                "administrador": adm
             }
         }).then(response =>{
             expect(response.body.message).to.equal('Cadastro realizado com sucesso')
