@@ -37,20 +37,20 @@ Cypress.Commands.add('token', (email, senha) => {
     })
 
 })
-Cypress.Commands.add('cadastrarProduto', (token, produto, preco, descricao, quantidade) => {
+Cypress.Commands.add('cadastrarProduto' , (token, produto, preco, descricao, quantidade) =>{
     cy.request({
-        method: 'POST',
-        url: '/Produtos',
-        headers: { authorization: token },
+        method: 'POST', 
+        url: 'produtos',
+        headers: {authorization: token}, 
         body: {
             "nome": produto,
             "preco": preco,
             "descricao": descricao,
             "quantidade": quantidade
-        },
-        failOnStatusCode: false
+          }, 
+          failOnStatusCode: false
     })
-})
+ })
 Cypress.Commands.add('login', (email, senha) => {
     it('login com sucesso', () => {
         cy.request({
@@ -68,8 +68,7 @@ Cypress.Commands.add('login', (email, senha) => {
 
     });
 })
-Cypress.Commands.add('cadastrarUsuario', (nome, email, senha, adm) => {
-    it('cadastro de usuario', () => {
+Cypress.Commands.add('cadastrarUsuario', (nome, email, senha) => {
         cy.request({
             method: 'POST',
             url: 'usuarios',
@@ -77,11 +76,11 @@ Cypress.Commands.add('cadastrarUsuario', (nome, email, senha, adm) => {
                 "nome": nome,
                 "email": email,
                 "password": senha,
-                "administrador": adm
+                "administrador": "true"
             }
         }).then(response =>{
+            expect(response.status).to.equal(201)
             expect(response.body.message).to.equal('Cadastro realizado com sucesso')
         })
 
     })
-})

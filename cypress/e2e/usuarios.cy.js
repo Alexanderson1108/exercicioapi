@@ -51,20 +51,24 @@ describe('teste de usuarios', () => {
             expect(response.body.email).to.equal('email deve ser um email válido')
         })
     })
-    it.only('Deve editar um usuário previamente cadastrado', () => {
-        let emailfaker = faker.internet.email()
-        cy.cadastrarUsuario('ALEX ANDERSON',emailfaker, 'teste','true').then(response =>{
-            let id = response.boy._id
+    it('Deve editar um usuário previamente cadastrado', () => {
+        let email = faker.internet.email()
+        let nome = faker.internet.userName()
+        let senha =faker.internet.password()
+
+        cy.cadastrarUsuario(nome, email, senha).then(response =>{
+            let id = response.body._id
             cy.request({
                 method: 'PUT',
                 url: `usuarios/${id}`,
                 body: {
-                    "nome": "ALEX ANDERSON",
-                    "email": "abc@me.com",
+                    "nome": nome +'- nome alterado',
+                    "email": email,
                     "password": "teste",
                     "administrador": "true"
                 }
             }).then(response => {
+                expect(response.status).to.equal(200)
                 expect(response.body.message).to.equal('Registro alterado com sucesso')
             })
         })
@@ -72,8 +76,12 @@ describe('teste de usuarios', () => {
             
     })
     it('Deve deletar um usuário previamente cadastrado', () => {
-        cy.request('usuarios').then(response => {
-            let id = response.body.usuarios[2]._id
+        let email = faker.internet.email()
+        let nome = faker.internet.userName()
+        let senha =faker.internet.password()
+
+        cy.cadastrarUsuario(nome, email, senha).then(response =>{
+            let id = response.body._id
             cy.request({
                 method: 'DELETE',
                 url: `usuarios/${id}`,
@@ -82,3 +90,4 @@ describe('teste de usuarios', () => {
             })
         })
     })
+
